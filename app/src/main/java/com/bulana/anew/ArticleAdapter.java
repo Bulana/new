@@ -36,12 +36,17 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         holder.description.setText(article.getDescription());
         holder.publishedDate.setText(article.getPublishedDate());
         holder.author.setText(article.getAuthor());
-        Glide.with(context).load(article.getImageUrl().into(holder.articleImage));
+        //Glide.with(context).load(article.getImageUrl().into(holder.articleImage));
     }
 
     @Override
     public int getItemCount() {
         return articles.size();
+    }
+
+    public void updateData(ArrayList<ArticleModel> articles) {
+        this.articles = articles;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -17,16 +17,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initialise();
+
         new ArticleData().getNewsList(new ArticleListAsyncResponse() {
             @Override
             public void processFinish(ArrayList<ArticleModel> articles) {
-
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-                articleAdapter = new ArticleAdapter(getApplicationContext(), articles);
-
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(articleAdapter);
+                articleAdapter.updateData(articles);
             }
         });
     }
+
+    private void initialise() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        articleAdapter = new ArticleAdapter(getApplicationContext(), null);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(articleAdapter);
+    }
+
+
 }

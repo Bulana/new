@@ -1,7 +1,5 @@
 package com.bulana.anew;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,10 +38,14 @@ public class ArticleData {
                                 articleModel.setNewsUrl(articleObject.getString("url"));
 
                                 articles.add(articleModel);
-                            }if (null != callBack) callBack.processFinish(articles);
+                            }
+                            if (callBack != null) {
+                                callBack.processFinish(articles);
+                            }
 
                         }catch (JSONException e) {
                             e.printStackTrace();
+                            //TODO: Handle exception
                         }
 
                     }
@@ -51,8 +53,7 @@ public class ArticleData {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-
+                            //TODO: Handle response
                     }
                 });
 
