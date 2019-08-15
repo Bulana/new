@@ -1,6 +1,10 @@
 package com.bulana.anew;
 
-public class ArticleModel {
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ArticleModel implements Parcelable {
 
     private String author;
     private String title;
@@ -56,5 +60,15 @@ public class ArticleModel {
 
     public void setPublishedDate(String publishedDate) {
         this.publishedDate = publishedDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
