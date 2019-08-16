@@ -28,17 +28,18 @@ public class ArticleData {
 
                             for (int i = 0; i < articleArray.length();i++) {
                                 JSONObject articleObject = articleArray.getJSONObject(i);
-                                ArticleModel articleModel = new ArticleModel();
+                                ArticleModel article = new ArticleModel();
 
-                                articleModel.setAuthor(articleObject.getString("author"));
-                                articleModel.setTitle(articleObject.getString("title"));
-                                articleModel.setDescription(articleObject.getString("description"));
-                                articleModel.setImageUrl(articleObject.getString("urlToImage"));
-                                articleModel.setPublishedDate(articleObject.getString("publishedAt"));
-                                articleModel.setNewsUrl(articleObject.getString("url"));
+                                article.setAuthor(articleObject.getString("author"));
+                                article.setTitle(articleObject.getString("title"));
+                                article.setDescription(articleObject.getString("description"));
+                                article.setImageUrl(articleObject.getString("urlToImage"));
+                                article.setPublishedDate(articleObject.getString("publishedAt"));
+                                article.setNewsUrl(articleObject.getString("url"));
 
-                                articles.add(articleModel);
+                                articles.add(article);
                             }
+
                             if (callBack != null) {
                                 callBack.processFinish(articles);
                             }
@@ -49,6 +50,7 @@ public class ArticleData {
                         }
 
                     }
+
                 }, new Response.ErrorListener() {
 
                     @Override

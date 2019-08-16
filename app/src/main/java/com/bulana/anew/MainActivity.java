@@ -1,16 +1,12 @@
 package com.bulana.anew;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,21 +16,26 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArticleAdapter articleAdapter;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private int countNextworkCalls;
+    public int networkCallsCounter;
     private final String STATE_LIST = "Adapter data";
-    private ArrayList<ArticleModel> articles;
+    public ArrayList<ArticleModel> articlesList;
+    private View loadingView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadingView = findViewById(R.id.loading_spinner);
 
         if (savedInstanceState != null) {
-            articles = savedInstanceState.getParcelableArrayList(STATE_LIST);
-            countNextworkCalls = Integer.parseInt(savedInstanceState.getString("COUNTER"));
+            articlesList = savedInstanceState.getParcelableArrayList(STATE_LIST);
+            networkCallsCounter = Integer.parseInt(savedInstanceState.getString("COUNTER"));
             recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-            articleAdapter = new ArticleAdapter(MainActivity.this, articles);
+
+            articleAdapter = new ArticleAdapter(MainActivity.this, articlesList);
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             recyclerView.setAdapter(articleAdapter);
+
+            loadingView.setVisibility(View.GONE);
 
         } else {
             initialise();
@@ -48,12 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(articleAdapter);
+        //  loadingView.setVisibility(View.GONE);
     }
+
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         Log.d(LOG_TAG, "onStart");
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -76,18 +80,33 @@ public class MainActivity extends AppCompatActivity {
         //prep articles
         new ArticleData().getNewsList(new ArticleListAsyncResponse() {
             @Override
-            public void processFinish(final ArrayList<ArticleModel> articles) {
+            public void processFinish(ArrayList<ArticleModel> articlesList) {
+
+                if (networkCallsCounter == 1) {
+                    ArticleModel article = new ArticleModel();
+                    article.setAuthor("AUTHOR");
+                    article.setTitle("TITLE");
+                    article.setDescription(("description"));
+                    article.setImageUrl("urlToImage");
+                    article.setPublishedDate("publishedAt");
+                    article.setNewsUrl("url");
+                    articlesList.add(0,article);
+                }
+
+
                 //Set article data
+                loadingView.setVisibility(View.GONE);
+                articleAdapter.updateData(articlesList);
 
-                articleAdapter.updateData(articles);
-
-                countNextworkCalls++;
-                String toastString = String.format(countNextworkCalls+ " ");
-                Toast toast=Toast.makeText(getApplicationContext(),toastString,Toast.LENGTH_SHORT);
-                toast.setMargin(50,50);
+                String toastString = String.format(networkCallsCounter + " ");
+                Toast toast = Toast.makeText(getApplicationContext(), toastString, Toast.LENGTH_SHORT);
+                toast.setMargin(50, 50);
                 toast.show();
 
-                articleAdapter.setOnClickListener(new ArticleAdapter.OnItemClickListner() {
+
+                networkCallsCounter++;
+
+                articleAdapter.setOnClickListener(new ArticleAdapter.OnItemClickListener() {
 
                     @Override
                     public void onArticleSelected(ArticleModel articleData) {
@@ -100,14 +119,15 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("COUNTER", countNextworkCalls+"");
-        outState.putParcelableArrayList(STATE_LIST, articleAdapter.getArticles());
+        outState.putString("COUNTER", networkCallsCounter + "");
+        outState.putParcelableArrayList(STATE_LIST, articlesList);
     }
 
     @Override

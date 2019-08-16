@@ -14,6 +14,28 @@ public class ArticleModel implements Parcelable {
     private String publishedDate;
 
 
+    protected ArticleModel(Parcel in) {
+        author = in.readString();
+        title = in.readString();
+        description = in.readString();
+        newsUrl = in.readString();
+        imageUrl = in.readString();
+        publishedDate = in.readString();
+    }
+    public ArticleModel(){}
+
+    public static final Creator<ArticleModel> CREATOR = new Creator<ArticleModel>() {
+        @Override
+        public ArticleModel createFromParcel(Parcel in) {
+            return new ArticleModel(in);
+        }
+
+        @Override
+        public ArticleModel[] newArray(int size) {
+            return new ArticleModel[size];
+        }
+    };
+
     public String getAuthor() {
         return author;
     }
@@ -69,6 +91,11 @@ public class ArticleModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(author);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(newsUrl);
+        dest.writeString(imageUrl);
+        dest.writeString(publishedDate);
     }
 }

@@ -1,8 +1,6 @@
 package com.bulana.anew;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +17,14 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     private Context context;
 
+    private ArrayList<ArticleModel> articles;
+    private OnItemClickListener itemClickListener;
+
+
     public ArrayList<ArticleModel> getArticles() {
         return articles;
     }
 
-    private ArrayList<ArticleModel> articles;
-    private OnItemClickListner itemClickListener;
 
     public ArticleAdapter(Context context, ArrayList<ArticleModel> articles) {
         this.context = context;
@@ -54,7 +54,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         return articles.size();
     }
 
-    public void setOnClickListener(OnItemClickListner itemClickListener) {
+    public void setOnClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
@@ -63,7 +63,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         this.articles = articles;
         notifyDataSetChanged();
     }
-
 
     //For creating the nib/ linking xml single row file to java,
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -87,12 +86,12 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-
             itemClickListener.onArticleSelected(articles.get(getAdapterPosition()));
+
         }
     }
 
-    public interface OnItemClickListner {
+    public interface OnItemClickListener {
         void onArticleSelected(ArticleModel articleData);
     }
 }
