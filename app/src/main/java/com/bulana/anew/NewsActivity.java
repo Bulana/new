@@ -33,9 +33,6 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
-        //portrate mode
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         toolbar.setTitle("Nkosi");
         //setSupportActionBar(toolbar);

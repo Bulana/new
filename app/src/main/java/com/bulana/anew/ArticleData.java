@@ -13,8 +13,10 @@ import java.util.ArrayList;
 
 public class ArticleData {
 
+    //create the article's list
     ArrayList<ArticleModel> articles = new ArrayList<>();
 
+    //sends a request,
     public void getNewsList(final ArticleListAsyncResponse  callBack) {
         String url = "https://newsapi.org/v1/articles?source=the-verge&apiKey=bfb9a3d5a5a640918fc9b8b075727373";
 
@@ -28,8 +30,10 @@ public class ArticleData {
 
                             for (int i = 0; i < articleArray.length();i++) {
                                 JSONObject articleObject = articleArray.getJSONObject(i);
+                                //local article modal, prevent overrite
                                 ArticleModel article = new ArticleModel();
 
+                                //serialize json
                                 article.setAuthor(articleObject.getString("author"));
                                 article.setTitle(articleObject.getString("title"));
                                 article.setDescription(articleObject.getString("description"));
@@ -37,10 +41,12 @@ public class ArticleData {
                                 article.setPublishedDate(articleObject.getString("publishedAt"));
                                 article.setNewsUrl(articleObject.getString("url"));
 
+                                //add single articles to list of articles
                                 articles.add(article);
                             }
 
                             if (callBack != null) {
+                                //when data is back, call processFinish which is implemented in
                                 callBack.processFinish(articles);
                             }
 
@@ -58,7 +64,7 @@ public class ArticleData {
                             //TODO: Handle response
                     }
                 });
-
+        //volley's
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 }

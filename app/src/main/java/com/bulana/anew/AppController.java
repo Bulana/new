@@ -13,6 +13,7 @@ public class AppController extends Application {
     private static AppController mInstance;
     private RequestQueue mRequesQueue;
 
+    //one thread a time
     public static synchronized AppController getInstance() {
         return mInstance;
     }

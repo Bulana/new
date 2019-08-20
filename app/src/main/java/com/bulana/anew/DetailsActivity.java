@@ -1,9 +1,11 @@
 package com.bulana.anew;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,7 +18,10 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Log.d(LOG_TAG, "onCreate");
+
         //WebView code block
         webView = findViewById(R.id.webview);
 
@@ -28,6 +33,13 @@ public class DetailsActivity extends AppCompatActivity {
 
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
     }
 
     @Override
@@ -69,9 +81,9 @@ public class DetailsActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(LOG_TAG, "onDestroy");
     }
-        @Override
-        public void onBackPressed() {
-            super.onBackPressed();
-            Toast.makeText(this,"back button pressed", Toast.LENGTH_SHORT).show();
-        }
+//        @Override
+//        public void onBackPressed() {
+//            super.onBackPressed();
+//            Toast.makeText(this,"back button pressed", Toast.LENGTH_SHORT).show();
+//        }
 }
