@@ -18,7 +18,7 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         Log.d(LOG_TAG, "onCreate");
         //WebView code block
-        webView = (WebView) findViewById(R.id.webview);
+        webView = findViewById(R.id.webview);
 
         Bundle bundle = getIntent().getExtras();
 

@@ -1,6 +1,9 @@
 package com.bulana.anew;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,12 +27,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        if(isOnline()){
+//            setContentView(R.layout.activity_main);
+//        }else {
+//            setContentView(R.layout.internet_screen);
+//        }
+
         loadingView = findViewById(R.id.loading_spinner);
 
         if (savedInstanceState != null) {
             articlesList = savedInstanceState.getParcelableArrayList(STATE_LIST);
             networkCallsCounter = Integer.parseInt(savedInstanceState.getString("COUNTER"));
-            recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+            recyclerView = findViewById(R.id.recyclerView);
 
             articleAdapter = new ArticleAdapter(MainActivity.this, articlesList);
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -40,17 +49,24 @@ public class MainActivity extends AppCompatActivity {
         } else {
             initialise();
         }
-
     }
 
     private void initialise() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         articleAdapter = new ArticleAdapter(MainActivity.this, new ArrayList<ArticleModel>());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(articleAdapter);
         //  loadingView.setVisibility(View.GONE);
     }
+
+//    public boolean isOnline() {
+//        ConnectivityManager connMgr = (ConnectivityManager)
+//                getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+//
+//        return (networkInfo != null && networkInfo.isConnected());
+//    }
 
     @Override
     public void onStart() {
@@ -82,6 +98,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void processFinish(ArrayList<ArticleModel> articlesList) {
 
+
+                if(networkCallsCounter == 3){
+                    articlesList.clear();
+                    if(articlesList.size() == 0){
+                        String toastString = String.format("NO INTERNET, NO DATA ");
+                        Toast toast = Toast.makeText(getApplicationContext(), toastString, Toast.LENGTH_SHORT);
+                        toast.setMargin(100, 100);
+                        toast.show();
+                }
+                }
+
                 if (networkCallsCounter == 1) {
                     ArticleModel article = new ArticleModel();
                     article.setAuthor("AUTHOR");
@@ -97,13 +124,6 @@ public class MainActivity extends AppCompatActivity {
                 //Set article data
                 loadingView.setVisibility(View.GONE);
                 articleAdapter.updateData(articlesList);
-
-                String toastString = String.format(networkCallsCounter + " ");
-                Toast toast = Toast.makeText(getApplicationContext(), toastString, Toast.LENGTH_SHORT);
-                toast.setMargin(50, 50);
-                toast.show();
-
-
                 networkCallsCounter++;
 
                 articleAdapter.setOnClickListener(new ArticleAdapter.OnItemClickListener() {
@@ -121,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

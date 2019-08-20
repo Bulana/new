@@ -42,7 +42,7 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
         ArticleModel article = articles.get(position);
 
         holder.title.setText(article.getTitle());
-        holder.description.setText(article.getDescription());
+        //holder.description.setText(article.getDescription());
         holder.publishedDate.setText(article.getPublishedDate());
         holder.author.setText(article.getAuthor());
 
