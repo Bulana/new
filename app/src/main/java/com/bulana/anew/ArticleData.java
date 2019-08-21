@@ -17,8 +17,9 @@ public class ArticleData {
     ArrayList<ArticleModel> articles = new ArrayList<>();
 
     //sends a request,
-    public void getNewsList(final ArticleListAsyncResponse  callBack) {
-        String url = "https://newsapi.org/v1/articles?source=the-verge&apiKey=bfb9a3d5a5a640918fc9b8b075727373";
+    public void getNewsList(String url,final ArticleListAsyncResponse  callBack) {
+
+        //String url = "https://newsapi.org/v1/articles?source=the-verge&apiKey=bfb9a3d5a5a640918fc9b8b075727373";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -30,7 +31,7 @@ public class ArticleData {
 
                             for (int i = 0; i < articleArray.length();i++) {
                                 JSONObject articleObject = articleArray.getJSONObject(i);
-                                //local article modal, prevent overrite
+                                //local article modal, prevent overite
                                 ArticleModel article = new ArticleModel();
 
                                 //serialize json

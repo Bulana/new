@@ -1,6 +1,7 @@
 package com.bulana.anew;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +27,9 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
     }
 
 
-    public ArticleAdapter(Context context, ArrayList<ArticleModel> articles) {
+    public ArticleAdapter(Context context) {
         this.context = context;
-        this.articles = articles;
+        articles = new ArrayList<>();
     }
 
     @Override
@@ -51,7 +52,11 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return articles.size();
+        if (articles != null) {
+            return articles.size();
+        } else {
+            return 0;
+        }
     }
 
     public void setOnClickListener(OnItemClickListener itemClickListener) {
@@ -60,8 +65,10 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
 
     public void updateData(ArrayList<ArticleModel> articles) {
         //data
-        this.articles = articles;
-        notifyDataSetChanged();
+        if (articles != null){
+            this.articles = articles;
+            notifyDataSetChanged();
+        }
     }
 
     //For creating the nib/ linking xml single row file to java,

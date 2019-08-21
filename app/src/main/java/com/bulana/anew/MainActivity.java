@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             networkCallsCounter = Integer.parseInt(savedInstanceState.getString("COUNTER"));
             recyclerView = findViewById(R.id.recyclerView);
 
-            articleAdapter = new ArticleAdapter(MainActivity.this, mArticlesList);
+            articleAdapter = new ArticleAdapter(MainActivity.this);
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             recyclerView.setAdapter(articleAdapter);
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     //Initializer for RecyclerView, Adapter
     private void initialise() {
         recyclerView = findViewById(R.id.recyclerView);
-        articleAdapter = new ArticleAdapter(MainActivity.this, new ArrayList<ArticleModel>());
+        articleAdapter = new ArticleAdapter(MainActivity.this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(articleAdapter);
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         noDataImage.setVisibility(View.GONE);
 
         //articleData obj, ArticleListAsyncResponse obj created
-        new ArticleData().getNewsList(new ArticleListAsyncResponse() {
+        new ArticleData().getNewsList(Constant.BITCOIN_URL,new ArticleListAsyncResponse() {
 
             @Override
             public void processFinish(ArrayList<ArticleModel> articlesList) {

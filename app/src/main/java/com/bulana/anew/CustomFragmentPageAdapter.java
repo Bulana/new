@@ -19,7 +19,7 @@ public class CustomFragmentPageAdapter extends FragmentPagerAdapter {
 
         switch (position){
             case 0:
-                return new BitcoinFragment();
+                //return new BitcoinFragment();
             case 1:
                 return new TopBusinessHeadLinesFragment();
             case 2:
