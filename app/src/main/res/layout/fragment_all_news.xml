@@ -7,7 +7,7 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:background="@color/colorPrimaryDark"
-    tools:context=".MainActivity">
+    tools:context=".ArticlesActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragmentRecyclerView"
@@ -22,12 +22,16 @@
         style="?android:progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center" />
 
     <ImageView
         android:id="@+id/noData"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/no_data"/>
+        android:src="@drawable/no_data" />
 </FrameLayout>

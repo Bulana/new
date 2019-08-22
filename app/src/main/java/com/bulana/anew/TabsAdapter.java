@@ -20,16 +20,17 @@ public class TabsAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position){
         switch (position){
             case 0:
-                BitcoinNewsFragment home = new BitcoinNewsFragment();
-                return home;
+                BitcoinNewsFragment bitcoinNews = new BitcoinNewsFragment();
+                return bitcoinNews;
             case 1:
-                AboutFragment about = new AboutFragment();
-                return about;
+                BusinessNewsFragment businessNews = new BusinessNewsFragment();
+                return businessNews;
             case 2:
-                ContactFragment contact = new ContactFragment();
-                return contact;
+                SportsFragment sports = new SportsFragment();
+                return sports;
             default:
                 return null;
+
         }
     }
 }

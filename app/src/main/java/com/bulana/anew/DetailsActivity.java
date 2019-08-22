@@ -18,6 +18,8 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        //Adding back button to action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Log.d(LOG_TAG, "onCreate");
@@ -30,15 +32,12 @@ public class DetailsActivity extends AppCompatActivity {
         if (bundle != null) {
             String url = bundle.getString("url");
             webView.loadUrl(url);
-
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivityForResult(myIntent, 0);
+        super.onBackPressed();
         return true;
     }
 
@@ -81,9 +80,4 @@ public class DetailsActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(LOG_TAG, "onDestroy");
     }
-//        @Override
-//        public void onBackPressed() {
-//            super.onBackPressed();
-//            Toast.makeText(this,"back button pressed", Toast.LENGTH_SHORT).show();
-//        }
 }

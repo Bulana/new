@@ -1,11 +1,7 @@
 package com.bulana.anew;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,11 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BitcoinNewsFragment extends Fragment {
+public class SportsFragment extends Fragment {
 
     private ArticleAdapter articleAdapter;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -26,9 +23,8 @@ public class BitcoinNewsFragment extends Fragment {
     public ArrayList<ArticleModel> articlesList;
     private View loadingView;
     private View noDataImage;
-    private Bundle savedInstanceState;
 
-    public BitcoinNewsFragment() {
+    public SportsFragment() {
     }
 
     @Override
@@ -39,6 +35,7 @@ public class BitcoinNewsFragment extends Fragment {
         //
         noDataImage = view.findViewById(R.id.noData);
         loadingView = view.findViewById(R.id.loading_spinner);
+        loadingView.setVisibility(View.VISIBLE);
         noDataImage.setVisibility(View.GONE);
 
         articleAdapter = new ArticleAdapter(getActivity());
@@ -50,35 +47,47 @@ public class BitcoinNewsFragment extends Fragment {
 
         //regardless
         recyclerView.setAdapter(articleAdapter);
+
         //get data and set to articleList
         getData();
+
+
+        //Loader and spinner
+        if(articlesList != null) {
+            loadingView.setVisibility(View.GONE);
+            noDataImage.setVisibility(View.VISIBLE);
+
+        }else{
+            loadingView.setVisibility(View.GONE);
+            noDataImage.setVisibility(View.GONE);
+        }
 
         return view;
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
+    public void setListener() {
+        articleAdapter.setOnClickListener(new ArticleAdapter.OnItemClickListener() {
 
-        if(savedInstanceState != null){
-            articlesList = savedInstanceState.getParcelableArrayList("Articles");
-        }
+            @Override
+            public void onArticleSelected(ArticleModel articleData) {
 
-        getData();
-        networkCallsCounter++;
-
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra("url", articleData.getNewsUrl());
+                startActivity(intent);
+            }
+        });
     }
 
     public List<ArticleModel> getData() {
 
         Log.d(LOG_TAG, "onResume");
 
-            //prep articles
+        //prep articles
         new ArticleData().getNewsList(Constant.BITCOIN_URL,new ArticleListAsyncResponse() {
             @Override
             public void processFinish(ArrayList<ArticleModel> articlesList) {
 
-                if (networkCallsCounter == 2) {
+                if (networkCallsCounter == 1) {
                     ArticleModel article = new ArticleModel();
                     article.setAuthor("AUTHOR");
                     article.setTitle("TITLE");
@@ -89,38 +98,19 @@ public class BitcoinNewsFragment extends Fragment {
                     articlesList.add(0,article);
                 }
                 //Set article data
-                loadingView.setVisibility(View.GONE);
+                //loadingView.setVisibility(View.GONE);
                 if(articlesList != null && articlesList.size() > 0) {
                     articleAdapter.updateData(articlesList);
+                    articleAdapter.setOnClickListener(null);
+                    setListener();
                 }
 
-                //Loader and Spinner
-                if(articlesList != null){
+                networkCallsCounter++;
 
-                } else {
-                    loadingView.setVisibility(View.GONE);
-                }
 
-                articleAdapter.setOnClickListener(new ArticleAdapter.OnItemClickListener() {
-
-                    @Override
-                    public void onArticleSelected(ArticleModel articleData) {
-
-                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                        intent.putExtra("url", articleData.getNewsUrl());
-                        startActivity(intent);
-                    }
-                });
             }
         });
         return articlesList;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        savedInstanceState = state;
-        state.putParcelableArrayList("Articles",articlesList);
     }
 
 }

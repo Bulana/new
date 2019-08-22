@@ -19,8 +19,6 @@ public class ArticleData {
     //sends a request,
     public void getNewsList(String url,final ArticleListAsyncResponse  callBack) {
 
-        //String url = "https://newsapi.org/v1/articles?source=the-verge&apiKey=bfb9a3d5a5a640918fc9b8b075727373";
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
