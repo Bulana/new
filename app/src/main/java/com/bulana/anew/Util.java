@@ -3,10 +3,10 @@ package com.bulana.anew;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
-
+//
+//import java.util.ArrayList;
+//import java.util.List;
+//
 //public class Util {
 //
 //    public static List<ArticleModel> getNetworkData(String url) {
@@ -18,7 +18,7 @@ import java.util.List;
 //            public void processFinish(ArrayList<ArticleModel> articlesList) {
 //
 //            }
-//        }
+//        };
 //
 //        return articlesList;
 //    }
